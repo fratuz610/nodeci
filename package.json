@@ -1,0 +1,11 @@
+{
+	"name": "insideout-ci-cd",
+	"version": "1.0.0",
+	"description": "CI-CD pipeline for the Inside Out Project",
+	"dependencies":
+	{
+		"rsvp": "*",
+		"aws-sdk": "*",
+		"ssh2": "*"
+	}
+}
