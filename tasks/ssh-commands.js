@@ -40,25 +40,27 @@ module.exports.run = function(sshParams) {
 		  		endTime: 0
 		  	};
 
-		  	conn.exec('command', function(err, stream) {
+		  	conn.exec(command, function(err, stream) {
 			    
 			    if (err) 
 			    	return reject(err);
 
 			    stream.on('exit', function(code, signal) {
 
-			    	console.log('Command '+command+' exit code' + code);
+			    	console.log('Exit code: ' + code);
 
 			      	ret[command].exitCode = code;
 
 			    }).on('close', function() {
 
-			      	console.log('Command '+command+' complete');
+			      	console.log('Command complete');
 			      	
 			      	if(sshParams.commandList.length === 0) {
-			      		conn.close();
-			      		return accept(ret);
+			      		conn.end();
+			      		return resolve(ret);
 			      	}
+
+			      	console.log('Command complete ' + ret[command].stdout.length + " stdout bytes / " + ret[command].stderr.length + " stderr bytes");
 
 			      	runCommand(sshParams.commandList.shift());
 			     	
