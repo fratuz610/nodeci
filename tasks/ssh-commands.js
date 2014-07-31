@@ -47,23 +47,27 @@ module.exports.run = function(sshParams) {
 
 			    stream.on('exit', function(code, signal) {
 
-			    	console.log('Exit code: ' + code);
-
-			      	ret[command].exitCode = code;
+			      	ret[command].exitCode = parseInt(code);
 
 			    }).on('close', function() {
 
-			      	console.log('Command complete');
-			      	
 			      	if(sshParams.commandList.length === 0) {
 			      		conn.end();
 			      		return resolve(ret);
 			      	}
 
-			      	console.log('Command complete ' + ret[command].stdout.length + " stdout bytes / " + ret[command].stderr.length + " stderr bytes");
+			      	if(ret[command].exitCode !== 0) {
+			      		console.log('Command completed ERROR: exit code ' + ret[command].exitCode);
+				      	console.log("Command stdout: '" + ret[command].stdout.substring(0, 100).trim() + "'");
+				      	console.log("Command stderr: '" + ret[command].stderr.substring(0, 100).trim() + "'");
 
-			      	runCommand(sshParams.commandList.shift());
-			     	
+				      	return reject(new Error("Failed to run " + command + " exit code: " + ret[command].exitCode));
+
+			      	} else {
+			      		console.log('Command completed SUCCESSFULLY: ' + ret[command].stdout.substring(0, 100).trim() + "'");
+				      	runCommand(sshParams.commandList.shift());
+			      	}
+			      	
 			    }).on('data', function(data) {
 
 			      	ret[command].stdout += data;

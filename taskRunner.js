@@ -76,10 +76,17 @@ function deepScanAndReplace(src) {
 		var value = src[key];
 
 		if(typeof value === "string") {
-			
-			// faster than regex in V8
-			for(var valueStackKey in valueStack)
-				ret[key] = str.split("%" + valueStackKey + "%").join(valueStack[valueStackKey]);
+
+			// we start by copying the value from source
+			ret[key] = src[key];
+
+			// faster than regex replacement in V8
+			for(var valueStackKey in valueStack) {
+
+				if(value.split("%" + valueStackKey + "%").length > 1)
+					ret[key] = value.split("%" + valueStackKey + "%").join(valueStack[valueStackKey]);
+					
+			}
 			
 
 		} else if (typeof value === 'object') {

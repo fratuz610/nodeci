@@ -24,4 +24,5 @@ try {
 
 // static config
 module.exports.aws = parsedConfig.aws;
+module.exports.repo = parsedConfig.repo;
 module.exports.notification = parsedConfig.notification;
