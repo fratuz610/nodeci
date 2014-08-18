@@ -64,7 +64,7 @@ module.exports.run = function(sshParams) {
 				      	return reject(new Error("Failed to run " + command + " exit code: " + ret[command].exitCode));
 
 			      	} else {
-			      		console.log('Command completed SUCCESSFULLY: ' + ret[command].stdout.substring(0, 100).trim() + "'");
+			      		console.log("Command completed SUCCESSFULLY: '" + ret[command].stdout.substring(0, 100).trim() + "'");
 				      	runCommand(sshParams.commandList.shift());
 			      	}
 			      	

@@ -35,9 +35,14 @@ function processQueue(elem) {
 
 		//console.log("New value stack: " + JSON.stringify(valueStack, null, 2));
 
-		if(commandList.length > 0)
+		if(commandList.length > 0) {
 			// we invoke the new step
 			processQueue(commandList.shift());
+		} else {
+			var endTime = new Date().getTime();
+			var diffSeconds = Math.round((endTime - startTime)/1000);
+			console.log("All tasks completed in " + diffSeconds + " seconds");
+		}
 
 	}, function(err) {
 
@@ -136,7 +141,11 @@ function asArray(obj) {
 	return arrayRet;
 }
 
+var startTime = 0;
+
 module.exports.run = function(taskList) {
+
+	startTime = new Date().getTime();
 	
 	// we save a reference to the module
 	commandList = taskList;

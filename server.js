@@ -68,8 +68,12 @@ var taskList = [
 				"sudo groupadd insideout.com.au",
 				"sudo mkdir /var/www",
 				"sudo useradd -g insideout.com.au -d /var/www/insideout.com.au -m -s /bin/bash insideout.com.au",
-				"sudo -u insideout.com.au mkdir /var/www/insideout.com.au/web",
 				"sudo -u insideout.com.au mkdir /var/www/insideout.com.au/log",
+				"git clone "+ cf.repo.url +" /tmp/temp-repo",
+				"cd /tmp/temp-repo && git checkout " + cf.repo.commitHash,
+				"rm -R /tmp/temp-repo/.git",
+				"sudo mv /tmp/temp-repo /var/www/insideout.com.au/web",
+				"sudo chown -R insideout.com.au:insideout.com.au /var/www/insideout.com.au/web",
 				"sudo service php5-fpm restart",
 				"sudo service nginx restart"
 			]
